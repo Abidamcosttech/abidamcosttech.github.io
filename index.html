@@ -55,6 +55,22 @@
       color: var(--gold-light);
       letter-spacing: 0.04em;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .nav-logo img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .nav-logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.04em;
     }
 
     .nav-links {
@@ -137,7 +153,7 @@
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.8rem, 5vw, 4.2rem);
-      font-weight: 600;
+      font-weight: 700;
       color: #fff;
       line-height: 1.12;
       margin-bottom: 1.5rem;
@@ -252,7 +268,7 @@
     .section-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.9rem, 3.5vw, 2.8rem);
-      font-weight: 600;
+      font-weight: 700;
       line-height: 1.2;
       color: var(--text);
       margin-bottom: 1.25rem;
@@ -663,7 +679,8 @@
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">
-    <img src="abidam.jpg" alt="Abidam Cost Tech Limited" style="height:42px; width:auto; object-fit:contain; display:block;">
+    <img src="abidam.jpg" alt="Abidam Cost Tech Limited" onerror="this.style.display='none'">
+    <span class="nav-logo-text">Abidam Cost Tech</span>
   </a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
@@ -671,6 +688,7 @@
     <li><a href="#projects">Projects</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#calculator">Calculator</a></li>
     <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
   </ul>
 </nav>
@@ -1005,6 +1023,273 @@
   </div>
 </section>
 
+<!-- CONCRETE CALCULATOR -->
+<section id="calculator" style="background: var(--dark);">
+  <div style="text-align:center; margin-bottom:3rem;">
+    <p class="section-eyebrow" style="color:var(--gold);">Free Tool</p>
+    <h2 class="section-title" style="color:#fff;">Concrete <em>Calculator</em></h2>
+    <p class="section-body" style="color:rgba(255,255,255,0.5); margin:0 auto;">Select your concrete grade, enter your dimensions or volume and get instant material quantities.</p>
+  </div>
+
+  <div style="max-width:780px; margin:0 auto;">
+
+    <!-- Grade selector -->
+    <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:2rem;">
+      <button onclick="selectGrade(this,'15','1:3:6',1,3,6)" class="grade-btn active-grade">
+        <span style="font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600;">C15</span>
+        <span style="font-size:0.7rem; opacity:0.7; display:block;">1 : 3 : 6</span>
+      </button>
+      <button onclick="selectGrade(this,'20','1:2:4',1,2,4)" class="grade-btn">
+        <span style="font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600;">C20</span>
+        <span style="font-size:0.7rem; opacity:0.7; display:block;">1 : 2 : 4</span>
+      </button>
+      <button onclick="selectGrade(this,'25','1:1.5:3',1,1.5,3)" class="grade-btn">
+        <span style="font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600;">C25</span>
+        <span style="font-size:0.7rem; opacity:0.7; display:block;">1 : 1.5 : 3</span>
+      </button>
+      <button onclick="selectGrade(this,'30','1:1:2',1,1,2)" class="grade-btn">
+        <span style="font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600;">C30</span>
+        <span style="font-size:0.7rem; opacity:0.7; display:block;">1 : 1 : 2</span>
+      </button>
+      <button onclick="selectGrade(this,'custom','Custom',0,0,0)" class="grade-btn" id="custom-btn">
+        <span style="font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600;">Custom</span>
+        <span style="font-size:0.7rem; opacity:0.7; display:block;">Set ratio</span>
+      </button>
+    </div>
+
+    <!-- Custom ratio inputs -->
+    <div id="custom-ratio" style="display:none; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:4px; padding:1.25rem; margin-bottom:1.5rem;">
+      <p style="font-size:0.8rem; color:rgba(255,255,255,0.5); margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.1em;">Enter custom mix ratio (Cement : Sand : Granite)</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem;">
+        <div>
+          <label style="font-size:0.75rem; color:var(--gold); display:block; margin-bottom:4px;">Cement</label>
+          <input type="number" id="cr-cement" value="1" min="0.1" step="0.1" oninput="updateCustomRatio()" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; padding:0.6rem 0.75rem; border-radius:4px; font-size:0.9rem;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem; color:var(--gold); display:block; margin-bottom:4px;">Sand</label>
+          <input type="number" id="cr-sand" value="2" min="0.1" step="0.1" oninput="updateCustomRatio()" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; padding:0.6rem 0.75rem; border-radius:4px; font-size:0.9rem;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem; color:var(--gold); display:block; margin-bottom:4px;">Granite</label>
+          <input type="number" id="cr-granite" value="4" min="0.1" step="0.1" oninput="updateCustomRatio()" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; padding:0.6rem 0.75rem; border-radius:4px; font-size:0.9rem;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab switcher -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:4px; overflow:hidden; margin-bottom:1.5rem;">
+      <button id="tab-dimensions" onclick="switchTab('dimensions')" style="background:rgba(184,146,74,0.15); border:none; padding:0.85rem; color:#fff; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:500; transition:background 0.2s;">
+        📐 &nbsp; Enter Dimensions (L × W × H)
+      </button>
+      <button id="tab-volume" onclick="switchTab('volume')" style="background:rgba(255,255,255,0.04); border:none; padding:0.85rem; color:rgba(255,255,255,0.5); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:400; transition:background 0.2s;">
+        🧱 &nbsp; Enter Volume Directly (m³)
+      </button>
+    </div>
+
+    <!-- TAB 1: Dimensions -->
+    <div id="panel-dimensions">
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:4px; padding:1.5rem; margin-bottom:1.5rem;">
+        <p style="font-size:0.8rem; color:rgba(255,255,255,0.5); margin-bottom:1.25rem; text-transform:uppercase; letter-spacing:0.1em;">Enter Dimensions (metres)</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.25rem;">
+          <div>
+            <label style="font-size:0.8rem; color:var(--gold); display:block; margin-bottom:6px;">Length (m)</label>
+            <input type="number" id="inp-length" placeholder="e.g. 5" min="0" step="0.01" oninput="calculate()" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; padding:0.75rem 1rem; border-radius:4px; font-size:1rem;">
+          </div>
+          <div>
+            <label style="font-size:0.8rem; color:var(--gold); display:block; margin-bottom:6px;">Width (m)</label>
+            <input type="number" id="inp-width" placeholder="e.g. 3" min="0" step="0.01" oninput="calculate()" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; padding:0.75rem 1rem; border-radius:4px; font-size:1rem;">
+          </div>
+          <div>
+            <label style="font-size:0.8rem; color:var(--gold); display:block; margin-bottom:6px;">Thickness (m)</label>
+            <input type="number" id="inp-depth" placeholder="e.g. 0.15" min="0" step="0.001" oninput="calculate()" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; padding:0.75rem 1rem; border-radius:4px; font-size:1rem;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Direct Volume -->
+    <div id="panel-volume" style="display:none;">
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:4px; padding:1.5rem; margin-bottom:1.5rem;">
+        <p style="font-size:0.8rem; color:rgba(255,255,255,0.5); margin-bottom:1.25rem; text-transform:uppercase; letter-spacing:0.1em;">Enter Concrete Volume</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; align-items:end;">
+          <div>
+            <label style="font-size:0.8rem; color:var(--gold); display:block; margin-bottom:6px;">Volume of Concrete (m³)</label>
+            <input type="number" id="inp-volume" placeholder="e.g. 10" min="0" step="0.01" oninput="calculateFromVolume()" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; padding:0.75rem 1rem; border-radius:4px; font-size:1.1rem;">
+          </div>
+          <div style="background:rgba(184,146,74,0.06); border:1px solid var(--border); border-radius:4px; padding:0.85rem 1rem;">
+            <p style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin-bottom:4px;">How to get your volume</p>
+            <p style="font-size:0.8rem; color:rgba(255,255,255,0.6); line-height:1.6;">Multiply: <span style="color:var(--gold);">Length × Width × Thickness</span><br/>e.g. 5m × 4m × 0.15m = 3m³</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results (shared) -->
+    <div id="calc-results" style="display:none;">
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:4px; overflow:hidden; margin-bottom:1rem;">
+        <div style="background:var(--dark-2); padding:1.5rem 1rem; text-align:center;">
+          <div style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.4); margin-bottom:0.4rem;">Volume</div>
+          <div id="res-volume" style="font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; color:var(--gold-light); line-height:1;">0</div>
+          <div style="font-size:0.7rem; color:rgba(255,255,255,0.3); margin-top:2px;">m³</div>
+        </div>
+        <div style="background:var(--dark-2); padding:1.5rem 1rem; text-align:center;">
+          <div style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.4); margin-bottom:0.4rem;">Cement</div>
+          <div id="res-cement" style="font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; color:var(--gold-light); line-height:1;">0</div>
+          <div style="font-size:0.7rem; color:rgba(255,255,255,0.3); margin-top:2px;">bags (50kg)</div>
+        </div>
+        <div style="background:var(--dark-2); padding:1.5rem 1rem; text-align:center;">
+          <div style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.4); margin-bottom:0.4rem;">Sand</div>
+          <div id="res-sand" style="font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; color:var(--gold-light); line-height:1;">0</div>
+          <div style="font-size:0.7rem; color:rgba(255,255,255,0.3); margin-top:2px;">m³</div>
+        </div>
+        <div style="background:var(--dark-2); padding:1.5rem 1rem; text-align:center;">
+          <div style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.4); margin-bottom:0.4rem;">Granite</div>
+          <div id="res-granite" style="font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; color:var(--gold-light); line-height:1;">0</div>
+          <div style="font-size:0.7rem; color:rgba(255,255,255,0.3); margin-top:2px;">m³</div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div id="calc-summary" style="background:rgba(184,146,74,0.08); border:1px solid var(--border); border-radius:4px; padding:1.25rem 1.5rem;">
+        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.6rem;">Summary</p>
+        <p id="summary-text" style="font-size:0.9rem; color:rgba(255,255,255,0.65); line-height:1.8;"></p>
+        <p style="font-size:0.75rem; color:rgba(255,255,255,0.3); margin-top:0.75rem; font-style:italic;">* For professional estimates and BOQ, contact Abidam Cost Tech Limited.</p>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div id="calc-empty" style="text-align:center; padding:2rem; border:1px dashed rgba(184,146,74,0.2); border-radius:4px;">
+      <p style="font-size:0.9rem; color:rgba(255,255,255,0.3);">Select a grade and enter your dimensions or volume above to see instant material quantities</p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .grade-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.85rem 0.5rem;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    width: 100%;
+  }
+  .grade-btn:hover { background: rgba(184,146,74,0.1); border-color: var(--gold); color: #fff; }
+  .active-grade { background: rgba(184,146,74,0.15) !important; border-color: var(--gold) !important; color: #fff !important; }
+</style>
+
+<script>
+  // ── CORRECT QS CONCRETE CALCULATION ──────────────────────────────────────
+  // Dry volume factor : 1.50  (industry-standard for mix design)
+  // Cement bag volume : 50kg ÷ 1440 kg/m³ = 0.034722 m³ per bag
+  // No rounding – all results shown to 4 decimal places
+  // ─────────────────────────────────────────────────────────────────────────
+  const DRY_FACTOR = 1.50;
+  const BAG_VOL    = 50 / 1440;   // = 0.034722 m³ per 50kg bag
+
+  let currentRatio = { cement: 1, sand: 3, granite: 6 };
+  let activeTab = 'dimensions';
+
+  function switchTab(tab) {
+    activeTab = tab;
+    document.getElementById('panel-dimensions').style.display = tab === 'dimensions' ? 'block' : 'none';
+    document.getElementById('panel-volume').style.display     = tab === 'volume'     ? 'block' : 'none';
+    document.getElementById('tab-dimensions').style.background = tab === 'dimensions' ? 'rgba(184,146,74,0.15)' : 'rgba(255,255,255,0.04)';
+    document.getElementById('tab-dimensions').style.color      = tab === 'dimensions' ? '#fff' : 'rgba(255,255,255,0.5)';
+    document.getElementById('tab-volume').style.background     = tab === 'volume'     ? 'rgba(184,146,74,0.15)' : 'rgba(255,255,255,0.04)';
+    document.getElementById('tab-volume').style.color          = tab === 'volume'     ? '#fff' : 'rgba(255,255,255,0.5)';
+    document.getElementById('calc-results').style.display = 'none';
+    document.getElementById('calc-empty').style.display   = 'block';
+  }
+
+  function selectGrade(btn, grade, label, c, s, g) {
+    document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active-grade'));
+    btn.classList.add('active-grade');
+    const customDiv = document.getElementById('custom-ratio');
+    if (grade === 'custom') {
+      customDiv.style.display = 'block';
+      updateCustomRatio();
+    } else {
+      customDiv.style.display = 'none';
+      currentRatio = { cement: c, sand: s, granite: g };
+      activeTab === 'dimensions' ? calculate() : calculateFromVolume();
+    }
+  }
+
+  function updateCustomRatio() {
+    const c = parseFloat(document.getElementById('cr-cement').value)  || 1;
+    const s = parseFloat(document.getElementById('cr-sand').value)    || 2;
+    const g = parseFloat(document.getElementById('cr-granite').value) || 4;
+    currentRatio = { cement: c, sand: s, granite: g };
+    activeTab === 'dimensions' ? calculate() : calculateFromVolume();
+  }
+
+  function calculate() {
+    const L = parseFloat(document.getElementById('inp-length').value);
+    const W = parseFloat(document.getElementById('inp-width').value);
+    const D = parseFloat(document.getElementById('inp-depth').value);
+    if (!L || !W || !D || L <= 0 || W <= 0 || D <= 0) {
+      document.getElementById('calc-results').style.display = 'none';
+      document.getElementById('calc-empty').style.display   = 'block';
+      return;
+    }
+    const wetVol = L * W * D;
+    computeAndShow(wetVol, `For a <strong style="color:#fff;">${L}m × ${W}m × ${D}m</strong> element`);
+  }
+
+  function calculateFromVolume() {
+    const V = parseFloat(document.getElementById('inp-volume').value);
+    if (!V || V <= 0) {
+      document.getElementById('calc-results').style.display = 'none';
+      document.getElementById('calc-empty').style.display   = 'block';
+      return;
+    }
+    computeAndShow(V, `For a concrete volume of <strong style="color:#fff;">${V} m³</strong>`);
+  }
+
+  function fmt(val) {
+    // Show exact value to 4 decimal places — no rounding up or down
+    return parseFloat(val.toFixed(4));
+  }
+
+  function computeAndShow(wetVol, prefix) {
+    const { cement, sand, granite } = currentRatio;
+    const totalParts = cement + sand + granite;
+
+    // Step 1: dry volume
+    const dryVol = wetVol * DRY_FACTOR;
+
+    // Step 2: individual material volumes
+    const cementVol  = dryVol * (cement  / totalParts);
+    const sandVol    = dryVol * (sand    / totalParts);
+    const graniteVol = dryVol * (granite / totalParts);
+
+    // Step 3: bags of cement (exact — no Math.ceil)
+    const bags = cementVol / BAG_VOL;
+
+    // Display values — exact to 4 decimal places
+    const r = currentRatio;
+
+    document.getElementById('res-volume').textContent  = fmt(wetVol);
+    document.getElementById('res-cement').textContent  = fmt(bags);
+    document.getElementById('res-sand').textContent    = fmt(sandVol);
+    document.getElementById('res-granite').textContent = fmt(graniteVol);
+
+    document.getElementById('summary-text').innerHTML =
+      `${prefix} at mix ratio <strong style="color:#fff;">${r.cement}:${r.sand}:${r.granite}</strong>:<br><br>
+       Dry volume = ${fmt(wetVol)} × 1.50 = <strong style="color:var(--gold-light);">${fmt(dryVol)} m³</strong><br>
+       Cement = ${fmt(dryVol)} × (${cement}/${totalParts}) ÷ ${BAG_VOL.toFixed(6)} = <strong style="color:var(--gold-light);">${fmt(bags)} bags (50kg)</strong><br>
+       Sand = ${fmt(dryVol)} × (${sand}/${totalParts}) = <strong style="color:var(--gold-light);">${fmt(sandVol)} m³</strong><br>
+       Granite = ${fmt(dryVol)} × (${granite}/${totalParts}) = <strong style="color:var(--gold-light);">${fmt(graniteVol)} m³</strong>`;
+
+    document.getElementById('calc-results').style.display = 'block';
+    document.getElementById('calc-empty').style.display   = 'none';
+  }
+</script>
+
 <!-- CONTACT -->
 <section id="contact">
   <p class="section-eyebrow" style="text-align:center">Let's Work Together</p>
@@ -1041,7 +1326,10 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo"><img src="abidam.jpg" alt="Abidam Cost Tech Limited" style="height:36px; width:auto; object-fit:contain;"></div>
+  <div class="footer-logo" style="display:flex; align-items:center; gap:0.6rem;">
+    <img src="abidam.jpg" alt="Abidam Cost Tech Limited" onerror="this.style.display='none'" style="height:36px; width:auto; object-fit:contain;">
+    <span style="font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:700; color:var(--gold-light);">Abidam Cost Tech Limited</span>
+  </div>
   <div class="footer-copy">© 2026 Abidam Cost Tech Limited. RC 1506889 · CAC Registered in Nigeria. All rights reserved.</div>
 </footer>
 
